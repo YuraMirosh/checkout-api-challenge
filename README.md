@@ -1,5 +1,11 @@
 # Checkout API challenge
 
+## Usage
+
+- Test `./gradlew test`
+- Ktlint check `./gradlew ktlintCheck`
+- Run `./gradlew bootRun`
+
 ## Task description
 
 We would like you to build a simplified e-commerce API with a single endpoint that performs a
@@ -41,6 +47,13 @@ Content-Type: application/json
 # Body
 ["001","002","001","004","003"]
 ```
+Example:
+```
+curl -X POST 'localhost:8080/checkout' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+-d '["001","002","001","004","003"]'
+```
 
 ### Response
 ```
@@ -50,3 +63,33 @@ Content-Type: application/json
 # Body
 { "price": 360 }
 ```
+
+#### Response codes
+|Code|Description             | Content-Type           |
+|----|------------------------|------------------------|
+|200 | Success                |application/json        |
+|404 | Watch not found        |application/problem+json|
+|500 | Internal server error  |application/problem+json|
+
+## Technical stack
+
+- Kotlin
+- Gradle
+- Spring Boot
+- R2DBC
+
+## Assumptions
+
+- Unit and discount price values are integers
+
+## What can be improved
+
+- Add validations in business logic. Like: total price should always be positive
+- Separate static information (name) and dynamic (price, discount) in the database
+- Add constraints on db tables like: 
+    * price should be always > 0
+    * any combination with discount should be always better than without discount
+    * indexes
+- Add db migration tool (liquibase/flyway...)
+- Add logging
+- Add caching
